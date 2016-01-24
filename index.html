@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="windows-1251"/>
+	<title>Проверка стойкости пароля</title>
+	<meta name="description" content="Скрипт проверяет пароль на устойчивость к взлому во время набора текста." />
+	<meta name="keywords" content="javascript, jQuery, проверка пароля, стойкость пароля" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="check.pwd.js"></script>
+	<style>
+		html, body { height:100%; text-align: center; }
+		body { margin:0; background-color: #6B8E23;}
+		#center {
+			padding: 20px;
+			margin: 50px auto;
+			width: 550px;
+			-webkit-border-radius: 6px;
+			   -moz-border-radius: 6px;
+				    border-radius: 6px;
+			background-color: #8E8D22;
+			border: 1px solid rgb(0, 0, 0);
+			-webkit-box-shadow: 1px 1px 8px rgb(0, 0, 0);
+			   -moz-box-shadow: 1px 1px 8px rgb(0, 0, 0);
+					box-shadow: 1px 1px 8px rgb(0, 0, 0);
+		}
+		#center h3 {
+			font-weight: normal;
+		}
+		form {
+			width: 100%;
+			margin-bottom: 50px;
+		}
+		#code ul {
+			text-align: left;
+		}
+		#html-head-code, #html-body-code, #js-code {
+			position: relative;
+			display: none;
+			width: 500px;
+			padding: 10px 5px;
+			background: #D2D043;
+			margin: 0;
+		}
+		#html-head, #html-body, #js {
+			cursor: pointer;
+		}
+		#link_to_port {
+			font-size: 80%;
+		}
+	</style>
+</head>
+<body>
+    <div id="center">
+	<h3>Проверка пароля на стойкость</h3>
+	<form>
+            <p id="protect" style='color: #A21F1F;'></p>
+            <label for="password">Введите пароль:</label>
+            <input id="password" type="password" /><br><br>
+            <span class="help-block">Разрешены латинские буквы (a-zA-Z), цифры (0-9)<br> и некоторые символы (!_#$%^*&@?+)</span>
+	</form>
+	
+	<div id="code">
+            <h4>Посмотреть код</h4> 
+            <ul>
+		<li id="html-head">Прикрепленные js-файлы
+                    <div id="html-head-code">
+                        <code>
+                            &lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"&gt; &lt;/script&gt;<br>
+                            &lt;script src="check.pwd.js" type="text/javascript"&gt;&lt;/script&gt;
+                        </code>
+                    </div>
+                </li>
+		<li id="html-body">Поле для ввода пароля
+                    <div id="html-body-code">
+                        <code>			
+                            &lt;form><br>
+				&lt;p id="protect" style='color: #A21F1F;'>&lt;/p>
+				&lt;label for="password">Введите пароль:&lt;/label><br>
+				&lt;input id="password" type="password"/><br>
+				&lt;span class="help-block">Разрешены латинские буквы (a-zA-Z), цифры (0-9) и некоторые символы (!_#$%^*&@?+)&lt;/span><br>
+                            &lt;/form>			
+                        </code>
+                    </div>
+                </li>
+                <li id="js">javascript
+                    <div id="js-code">
+                        <code>			
+                            &#36;(document).ready(function() {<br>
+				&nbsp;&#36;('#protect').html("ненадежный пароль");<br>
+				&nbsp;var terms = {'length': false, 'az': false, 'AZ': false, <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'symbols': false, 'int': false};<br>
+				&nbsp;var protect;<br>
+				&nbsp;var error;<br>
+				<br>
+				&nbsp;&#36;('#password').keyup(function() {<br>
+					&nbsp;&nbsp;var pwd = &#36;(this).val();<br>
+					&nbsp;&nbsp;protect = 0;<br>
+					&nbsp;&nbsp;//проверяем пароль на длину >=6 символов<br>
+					&nbsp;&nbsp;if ( (pwd.length > 6) || (pwd.length == 6) ) {<br>
+					&nbsp;&nbsp;&nbsp;	terms['length'] = true;<br>
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	terms['length'] = false;<br>
+					&nbsp;&nbsp;}<br>
+					
+					&nbsp;&nbsp;//проверка на наличие латинских строчных букв<br>
+					&nbsp;&nbsp;if ((/[a-z]/).test(pwd)) {<br>
+					&nbsp;&nbsp;&nbsp;	terms['az'] = true;<br>
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	terms['az'] = false;<br>
+					&nbsp;&nbsp;}<br>
+					
+					&nbsp;&nbsp;//проверка на наличие латинских заглавных букв<br>
+					&nbsp;&nbsp;if ((/[A-Z]/).test(pwd)) {<br>
+					&nbsp;&nbsp;&nbsp;	terms['AZ'] = true;<br>
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	terms['AZ'] = false;<br>
+					&nbsp;&nbsp;}<br>
+					
+					&nbsp;&nbsp;//проверка на наличие символов<br>
+					&nbsp;&nbsp;if ((/[!#$%^\*&\@\?\+]/).test(pwd)) {<br>
+					&nbsp;&nbsp;&nbsp;	terms['symbols'] = true;<br>
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	terms['symbols'] = false;<br>
+					&nbsp;&nbsp;}<br>
+					
+					&nbsp;&nbsp;//проверка на наличие цифр<br>
+					&nbsp;&nbsp;if ((/[0-9]/).test(pwd)) {<br>
+					&nbsp;&nbsp;&nbsp;	terms['int'] = true;<br>
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	terms['int'] = false;<br>
+					&nbsp;&nbsp;}<br>
+					
+					&nbsp;&nbsp;for (key in terms) {<br>
+					&nbsp;	&nbsp;&nbsp;if (terms[key]) {<br>
+					&nbsp;	&nbsp;&nbsp;&nbsp;	protect++;<br>
+					&nbsp;	&nbsp;&nbsp;}<br>
+					&nbsp;&nbsp;}<br>
+					
+					&nbsp;&nbsp;//проверка на наличие недопустимых символов<br>
+					&nbsp;&nbsp;if ((/^[a-zA-Z0-9!#$%_^\*&\@\?\+]*$/).test(pwd)) {<br>
+					&nbsp;&nbsp;&nbsp;	error = false;<br>
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	error = true;<br>
+					&nbsp;}<br>
+					
+					&nbsp;&nbsp;if (error) {<br>
+					&nbsp;&nbsp;	// при наличии недопустимых символов<br>
+					&nbsp;&nbsp;	// текст в блоке .help-block<br>
+					&nbsp;&nbsp;	// меняет цвет на красный - предупреждение<br>
+					&nbsp;&nbsp;&nbsp;	&#36;('.help-block').css({'color':'#A21F1F'});<br>	
+					&nbsp;&nbsp;} else {<br>
+					&nbsp;&nbsp;&nbsp;	if ( protect == 5 ) {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		// при наличии 4-х видов символов - пароль неплохой<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		&#36;('#protect').css({"color": "#0C640C"});<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		&#36;('#protect').html("надежный пароль");<br>
+					&nbsp;&nbsp;&nbsp;	} else if ( protect == 4 ) {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		// при наличии всех видов символов - пароль надежный<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		&#36;('#protect').css({"color": "#FFFF00"});<br> 
+					&nbsp;&nbsp;&nbsp;&nbsp;		&#36;('#protect').html("неплохой пароль");<br>
+					&nbsp;&nbsp;&nbsp;	} else {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		&#36;('#protect').css({"color": "#A21F1F"});<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;		&#36;('#protect').html("ненадежный пароль");<br>
+					&nbsp;&nbsp;&nbsp;	}<br>
+					&nbsp;&nbsp;&nbsp;	&#36;('.help-block').css({'color':'#000000'});<br>
+					&nbsp;&nbsp;}<br>
+				&nbsp;});<br>
+                            });
+			</code>
+                    </div>
+                </li>
+            </ul>
+	</div>
+    </div>
+</body>
+</html>
