@@ -14,9 +14,8 @@ and the length of the password is 6 characters or more.
 
 When degree of strength varies you`ll see notice.
 
---------------
-2013 year
---------------
+> 2013 year
+
 
 ### проверка пароля на прочность
 
@@ -33,6 +32,4 @@ check.pwd.js  -  скрипт для проверки пароля
 
 При смене степени надежности Вы будете получать уведомление.
 
---------------
-2013 год
---------------
+> 2013 год
