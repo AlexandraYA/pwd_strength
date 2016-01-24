@@ -1,3 +1,9 @@
+/*
+ * Verification password strength
+ * @author - AlexandraYA
+ * @year - 2013
+ */
+
 $(document).ready(function() {
 	$('#protect').html("ненадежный пароль");
 	var terms = {'length': false, 'az': false, 'AZ': false, 'symbols': false, 'int': false};
